@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import * as cafeData from "./data/cafes.json";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MapContainer
+      center={[-27.46977, 153.025131]}
+      zoom={16}
+      scrollWheelZoom={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {cafeData.data.map((cafe) => (
+        <Marker key={cafe.id} position={[cafe.location[0], cafe.location[1]]}>
+          <Popup>
+            <h2>{cafe.name}</h2>
+            <p>Rating: {cafe.rating}</p>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
 }
 
